@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import CheckValidInfo from './CheckValidInfo';
 import UserInput from './UserInput';
 
@@ -23,7 +24,7 @@ export default function InputWithValidation({
   const isValid = valid || value.length === 0;
 
   return (
-    <>
+    <div css={input}>
       <UserInput
         type={type}
         value={value}
@@ -33,6 +34,10 @@ export default function InputWithValidation({
         label={label}
       />
       <CheckValidInfo valid={isValid} text={text} />
-    </>
+    </div>
   );
 }
+
+const input = css`
+  width: 320px;
+`;
