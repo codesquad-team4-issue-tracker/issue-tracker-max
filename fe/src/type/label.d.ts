@@ -10,7 +10,7 @@ type LabelData = {
 
 type Label = {
   id: number;
-  name: string;
+  title: string;
   description?: string;
   textColor: string;
   backgroundColor: string;

@@ -5,7 +5,7 @@ export const LabelContext = createContext<LabelData>({
   labels: [
     {
       id: 0,
-      name: '',
+      title: '',
       description: '',
       textColor: '',
       backgroundColor: '',

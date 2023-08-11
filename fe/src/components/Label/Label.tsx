@@ -6,7 +6,7 @@ export default function Label(label: Label) {
 
   return (
     <div css={labelStyle(theme, label.textColor, label.backgroundColor)}>
-      {label.name}
+      {label.title}
     </div>
   );
 }

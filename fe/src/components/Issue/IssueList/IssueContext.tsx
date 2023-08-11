@@ -2,7 +2,7 @@ import { createContext } from 'react';
 
 export const IssueContext = createContext<IssueData>({
   labelCount: 0,
-  mileStoneCount: 0,
+  milestoneCount: 0,
   openIssueCount: 0,
   closedIssueCount: 0,
   issues: [

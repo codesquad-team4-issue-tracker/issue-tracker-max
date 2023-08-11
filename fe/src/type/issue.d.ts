@@ -5,7 +5,7 @@ type IssueResponse = {
 
 type IssueData = {
   labelCount: number;
-  mileStoneCount: number;
+  milestoneCount: number;
   openIssueCount: number;
   closedIssueCount: number;
   issues: Issue[];

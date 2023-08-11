@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function MilestoneList() {
   const theme = useTheme();
-  const [activeMilestone, setActiveMilestone] = useState<'open' | 'closed'>(
+  const [milestoneFilter, setMilestoneFilter] = useState<'open' | 'closed'>(
     'open'
   );
   const [milestoneList, setMilestoneList] = useState<MilestoneData>();
@@ -18,12 +18,10 @@ export default function MilestoneList() {
 
   useEffect(() => {
     (async () => {
-      const subUrl = 'api/milestones/' + activeMilestone;
+      const subUrl = 'api/milestones/' + milestoneFilter;
 
       try {
         const milestoneData = await customFetch<MilestoneResponse>({ subUrl });
-
-        console.log(milestoneData);
 
         if (milestoneData.success && milestoneData.data) {
           setMilestoneList(milestoneData.data);
@@ -32,20 +30,22 @@ export default function MilestoneList() {
         navigate('/sign-in');
       }
     })();
-  }, [activeMilestone]);
+  }, [milestoneFilter]);
 
   const onMilestoneFilterClick = () => {
-    switch (activeMilestone) {
+    switch (milestoneFilter) {
       case 'open':
-        setActiveMilestone('closed');
+        setMilestoneFilter('closed');
         break;
       case 'closed':
-        setActiveMilestone('open');
+        setMilestoneFilter('open');
         break;
     }
   };
 
   const onClickToCreate = () => {};
+
+  const isOpen = milestoneFilter === 'open';
 
   return (
     <>
@@ -55,8 +55,7 @@ export default function MilestoneList() {
             isIssue={false}
             labelCount={milestoneList.labelCount}
             milestoneCount={
-              milestoneList.milestones.length +
-              milestoneList.closedMilestoneCount
+              milestoneList.milestones.length + milestoneList.oppositeCount
             }
             buttonValue="마일스톤 추가"
             onClick={onClickToCreate}
@@ -65,10 +64,18 @@ export default function MilestoneList() {
             <div css={milestoneTable(theme)}>
               <div className="header">
                 <MilestoneFilter
-                  openMilestoneCount={milestoneList.milestones.length}
-                  closedMilestoneCount={milestoneList.closedMilestoneCount}
-                  filterState={activeMilestone}
-                  onClick={onMilestoneFilterClick}
+                  openMilestoneCount={
+                    isOpen
+                      ? milestoneList.milestones.length
+                      : milestoneList.oppositeCount
+                  }
+                  closedMilestoneCount={
+                    !isOpen
+                      ? milestoneList.milestones.length
+                      : milestoneList.oppositeCount
+                  }
+                  filterState={milestoneFilter}
+                  onMilestoneFilterClick={onMilestoneFilterClick}
                 />
               </div>
               <ul className="item-container">

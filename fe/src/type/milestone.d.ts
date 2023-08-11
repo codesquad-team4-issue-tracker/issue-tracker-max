@@ -5,13 +5,13 @@ type MilestoneResponse = {
 
 type MilestoneData = {
   labelCount: number;
-  closedMilestoneCount: number;
+  oppositeCount: number;
   milestones: Milestone[];
 };
 
 type Milestone = {
   id: number;
-  name: string;
+  title: string;
   description: string;
   dueDate: string;
   openIssueCount: number;
