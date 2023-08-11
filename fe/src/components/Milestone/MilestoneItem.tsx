@@ -9,6 +9,16 @@ import { ReactComponent as DeleteIcon } from '/src/assets/icon/trash.svg';
 export default function IssueItem(milestone: Milestone) {
   const theme = useTheme();
 
+  const getFormatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const formattedDate = `
+    ${date.getFullYear()}. 
+    ${String(date.getMonth() + 1).padStart(2, '0')}. 
+    ${String(date.getDate()).padStart(2, '0')}`;
+
+    return formattedDate;
+  };
+
   const completionChart = Math.floor(
     (milestone.openIssueCount /
       (milestone.openIssueCount + milestone.closedIssueCount)) *
@@ -27,7 +37,7 @@ export default function IssueItem(milestone: Milestone) {
             {!!milestone.dueDate && (
               <>
                 <CalendarIcon />
-                {milestone.dueDate}
+                {getFormatDate(milestone.dueDate)}
               </>
             )}
           </div>
