@@ -19,8 +19,6 @@ export default function LabelList() {
       try {
         const labelData = await customFetch<LabelResponse>({ subUrl });
 
-        console.log(labelData);
-
         if (labelData.success && labelData.data) {
           setLabelList(labelData.data);
         }

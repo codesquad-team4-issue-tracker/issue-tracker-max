@@ -11,7 +11,7 @@ import { customFetch } from '../../../util/customFetch';
 export default function IssueList() {
   const theme = useTheme();
   const navigate = useNavigate();
-  const [activeIssue, setActiveIssue] = useState<'open' | 'close'>('open');
+  const [activeIssue, setActiveIssue] = useState<'open' | 'closed'>('open');
   const [checkedItemIdList, setCheckedItemIdList] = useState<number[]>([]); // Question: 빈 배열을 넣어서 타입에러를 해결했는데 괜찮을까요?
   const [issueList, setIssueList] = useState<IssueData>();
 
@@ -21,8 +21,6 @@ export default function IssueList() {
 
       try {
         const issueData = await customFetch<IssueResponse>({ subUrl });
-
-        console.log(issueData);
 
         if (issueData.success && issueData.data) {
           setIssueList(issueData.data);
@@ -36,7 +34,7 @@ export default function IssueList() {
   const allItemIdList = issueList?.issues.map((item: Issue) => item.id) || [];
   const isAllItemChecked = allItemIdList.length === checkedItemIdList.length;
 
-  const onIssueFilterClick = (issueFilter: 'open' | 'close') => {
+  const onIssueFilterClick = (issueFilter: 'open' | 'closed') => {
     setActiveIssue(issueFilter);
   };
 
@@ -68,7 +66,7 @@ export default function IssueList() {
             isIssue
             buttonValue="이슈 작성"
             labelCount={issueList.labelCount}
-            milestoneCount={issueList.mileStoneCount}
+            milestoneCount={issueList.milestoneCount}
             onClick={onClickToCreate}
           />
           <TableContainer>
@@ -91,7 +89,7 @@ export default function IssueList() {
                       key={item.id}
                       issue={item}
                       onSingleCheck={onSingleCheck}
-                      checkedItemIdList={checkedItemIdList}
+                      checked={checkedItemIdList.includes(item.id)}
                     />
                   );
                 })}
