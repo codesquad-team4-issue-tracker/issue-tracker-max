@@ -17,6 +17,10 @@ public class MemberService {
 	private final MemberValidator memberValidator;
 	private final MemberRepository memberRepository;
 
+	public void checkLoginIdDuplication(String loginId) {
+		memberValidator.existLoginId(loginId);
+	}
+
 	@Transactional
 	public void registerMember(SignUpRequest signUpRequest) {
 		memberValidator.existLoginId(signUpRequest.getLoginId());
@@ -25,9 +29,9 @@ public class MemberService {
 
 	@Transactional
 	public Member registerOauthMember(MemberProfileResponse memberProfileResponse) {
-		if (memberRepository.findByMemberLoginId(memberProfileResponse.getLoginId()).isEmpty()) {
+		if (!memberRepository.existsLoginId(memberProfileResponse.getLoginId())) {
 			memberRepository.save(memberProfileResponse.toMember());
 		}
-		return memberRepository.findByMemberLoginId(memberProfileResponse.getLoginId()).get();
+		return memberRepository.findByMemberLoginId(memberProfileResponse.getLoginId());
 	}
 }
